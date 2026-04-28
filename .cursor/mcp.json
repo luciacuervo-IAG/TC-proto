@@ -1,0 +1,33 @@
+{
+    "mcpServers": {
+      "memory": {
+        "command": "bash",
+        "args": [
+          "mcp-docker-wrapper.sh",
+          "ghcr.io/iagai/mcp-servers/modelcontextprotocol-server-memory:latest"
+        ]
+      },
+      "figma": {
+        "command": "bash",
+        "args": [
+          "mcp-docker-wrapper.sh",
+          "ghcr.io/iagai/mcp-servers/figma-developer-mcp:latest",
+          "--stdio"
+        ]
+      },
+      "browser": {
+        "command": "bash",
+        "args": [
+          "mcp-docker-wrapper.sh",
+          "playwright-mcp-with-chrome:latest"
+        ]
+      },
+      "atlassian": {
+        "command": "bash",
+        "args": [
+          "mcp-docker-wrapper.sh",
+          "ghcr.io/iagai/mcp-servers/ghcr.io-sooperset-mcp-atlassian:latest"
+        ]
+      }
+    }
+  }

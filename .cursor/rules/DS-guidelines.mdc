@@ -1,0 +1,430 @@
+---
+description: 
+alwaysApply: true
+---
+
+## 0. GOLDEN RULE
+You are operating in **Design System Strict Mode**.
+Before writing a single line of UI code from a design frame, you MUST:
+1. Identify every visual property in the frame (color, spacing, typography, radius, shadow, opacity).
+2. Map each property to a token from this file.
+3. Only then write code — using the exact Tailwind class or CSS variable listed below.
+Never hardcode hex values, raw px sizes, or arbitrary font weights.
+If a value has no matching token, write a comment: `// DS GAP: no token for <value> — propose addition`.
+
+---
+
+## 1. BRAND COLORS
+These are the custom IAG palette colors. Use the Tailwind arbitrary-value syntax or extend tailwind.config.
+
+| Token name         | Hex value | Usage                               |
+|-----|-----|----|
+| orange-IAG-100     | #ffede3   | Primary extra-weak background       |
+| orange-IAG-300     | #ffb28a   | Primary weak / dark-mode primary    |
+| orange-IAG-500     | #fe5b04   | Primary brand — buttons, CTAs       |
+| orange-IAG-900     | #862f00   | Primary foreground strong           |
+| emerald-IAG-100    | #e7f0f6   | Secondary extra-weak background     |
+| emerald-IAG-300    | #88b5d0   | Secondary medium (dark mode)        |
+| emerald-IAG-400    | #587587   | Secondary medium (light mode)       |
+| emerald-IAG-500    | #233038   | Secondary brand color               |
+| steal-IAG-500      | #e0f1f3   | Tertiary / sidebar accent           |
+
+### Tailwind config extension (add to tailwind.config.ts):
+```js
+colors: {
+  'orange-iag':     { 100: '#ffede3', 300: '#ffb28a', 500: '#fe5b04', 900: '#862f00' },
+  'emerald-iag':    { 100: '#e7f0f6', 300: '#88b5d0', 400: '#587587', 500: '#233038' },
+  'steal-iag':      { 500: '#e0f1f3' },
+  'yellow-vueling': { 100: '#fffddd', 300: '#fff66b', 500: '#fff000', 900: '#e4d847' },
+}
+```
+
+---
+
+## 2. SEMANTIC COLOR TOKENS -> TAILWIND CLASSES
+These map directly to shadcn/ui CSS variables. Always prefer semantic tokens over raw palette.
+
+### Core UI
+| Semantic role       | Light          | Dark                    | Tailwind class           |
+|---|----|----|-----|
+| background          | white          | neutral-950             | `bg-background`          |
+| foreground          | neutral-950    | neutral-50              | `text-foreground`        |
+| card                | white          | neutral-900             | `bg-card`                |
+| card-foreground     | neutral-950    | neutral-50              | `text-card-foreground`   |
+| popover             | white          | neutral-800             | `bg-popover`             |
+| popover-foreground  | neutral-950    | neutral-50              | `text-popover-foreground`|
+| muted               | neutral-100    | neutral-800             | `bg-muted`               |
+| muted-foreground    | neutral-400    | neutral-500             | `text-muted-foreground`  |
+| accent              | neutral-100    | neutral-700             | `bg-accent`              |
+| accent-foreground   | neutral-900    | neutral-50              | `text-accent-foreground` |
+| border              | neutral-200    | rgba(229,229,229,0.5)   | `border-border`          |
+| input               | neutral-200    | rgba(255,255,255,0.15)  | `border-input`           |
+| ring                | neutral-400    | neutral-500             | `ring-ring`              |
+
+### Brand
+| Semantic role           | Light           | Dark            | Tailwind class              |
+|----|-----|-----|-----|
+| primary                 | orange-IAG-500  | orange-IAG-300  | `bg-primary` / `text-primary`|
+| primary-foreground      | white           | neutral-900     | `text-primary-foreground`   |
+| primary-weak            | orange-IAG-300  | orange-IAG-500  | `bg-primary-weak`           |
+| primary-extraweak       | orange-IAG-100  | orange-IAG-900  | `bg-primary-extraweak`      |
+| secondary               | emerald-IAG-500 | emerald-IAG-100 | `bg-secondary`              |
+| secondary-foreground    | white           | neutral-900     | `text-secondary-foreground` |
+| secondary-weak          | emerald-IAG-400 | emerald-IAG-300 | `bg-secondary-weak`         |
+| secondary-extraweak     | emerald-IAG-100 | emerald-IAG-500 | `bg-secondary-extraweak`    |
+| tertiary                | steal-IAG-500   | steal-IAG-500   | `bg-tertiary`               |
+| destructive             | red-600         | red-400         | `bg-destructive`            |
+| destructive-foreground  | red-50          | red-50          | `text-destructive-foreground`|
+
+### Status colors
+| Role               | Light     | Dark      | Tailwind token          |
+|-----|-----|-----|----|
+| success            | green-500 | green-500 | `text-success`          |
+| success-bold       | green-700 | green-300 | `text-success-bold`     |
+| success-strong     | green-900 | green-50  | `text-success-strong`   |
+| success-extraweak  | green-50  | green-900 | `bg-success-extraweak`  |
+| info               | blue-500  | blue-500  | `text-info`             |
+| info-bold          | blue-700  | blue-300  | `text-info-bold`        |
+| info-extraweak     | blue-50   | blue-900  | `bg-info-extraweak`     |
+| error              | red-500   | red-500   | `text-error`            |
+| error-bold         | red-700   | red-300   | `text-error-bold`       |
+| error-extraweak    | red-50    | red-900   | `bg-error-extraweak`    |
+| warning            | amber-500 | amber-500 | `text-warning`          |
+| warning-bold       | amber-700 | amber-300 | `text-warning-bold`     |
+| warning-extraweak  | amber-50  | amber-900 | `bg-warning-extraweak`  |
+
+### Foreground hierarchy
+| Role               | Light       | Dark        | Tailwind class            |
+|-----|----|----|---|
+| foreground         | neutral-950 | neutral-50  | `text-foreground`         |
+| medium-foreground  | neutral-700 | neutral-300 | `text-medium-foreground`  |
+| weak-foreground    | neutral-500 | neutral-400 | `text-weak-foreground`    |
+| muted-foreground   | neutral-400 | neutral-500 | `text-muted-foreground`   |
+
+### Sidebar tokens
+| Role                        | Tailwind class                     |
+|-----|---|
+| sidebar background          | `bg-sidebar-background`            |
+| sidebar foreground          | `text-sidebar-foreground`          |
+| sidebar primary             | `bg-sidebar-primary`               |
+| sidebar primary foreground  | `text-sidebar-primary-foreground`  |
+| sidebar secondary           | `bg-sidebar-secondary`             |
+| sidebar accent              | `bg-sidebar-accent`                |
+| sidebar accent foreground   | `text-sidebar-accent-foreground`   |
+| sidebar border              | `border-sidebar-border`            |
+| sidebar ring                | `ring-sidebar-ring`                |
+| sidebar weak-foreground     | `text-sidebar-weak-foreground`     |
+| sidebar muted-foreground    | `text-sidebar-muted-foreground`    |
+
+---
+
+## 3. TYPOGRAPHY
+
+### Font families
+| Token       | Value      | Tailwind class  | Usage                         |
+|----|---|-----|----|
+| font-sans   | Inter      | `font-sans`     | Body, UI text (xxs to xl)     |
+| font-heading| Montserrat | `font-heading`* | Headings (2xl and above)      |
+| font-mono   | Geist Mono | `font-mono`     | Code blocks                   |
+| font-serif  | Georgia    | `font-serif`    | Editorial (rare)              |
+
+*Add to tailwind.config.ts: `fontFamily: { heading: ['Montserrat', 'sans-serif'] }`
+
+### Text size + line-height scale
+Figma text style name format: `text-{size}/{leading}/{weight}`
+- `leading-normal` = the px line-height listed in the table below
+- `leading-none`   = 100% (line-height equals font-size)
+
+| Size token | font-size | line-height (normal) | Tailwind size | Font family |
+|---|-----|----|---|----|
+| text-xxs   | 10px      | 12px                 | `text-[10px]` | Inter       |
+| text-xs    | 12px      | 16px                 | `text-xs`     | Inter       |
+| text-sm    | 14px      | 20px                 | `text-sm`     | Inter       |
+| text-base  | 16px      | 24px                 | `text-base`   | Inter       |
+| text-lg    | 18px      | 28px                 | `text-lg`     | Inter       |
+| text-xl    | 20px      | 28px                 | `text-xl`     | Inter       |
+| text-2xl   | 24px      | 32px                 | `text-2xl`    | Montserrat  |
+| text-3xl   | 30px      | 36px                 | `text-3xl`    | Montserrat  |
+| text-4xl   | 36px      | 40px                 | `text-4xl`    | Montserrat  |
+| text-5xl   | 48px      | 48px                 | `text-5xl`    | Montserrat  |
+| text-6xl   | 60px      | 60px                 | `text-6xl`    | Montserrat  |
+| text-7xl   | 72px      | 72px                 | `text-7xl`    | Montserrat  |
+| text-8xl   | 96px      | 96px                 | `text-8xl`    | Montserrat  |
+| text-9xl   | 128px     | 128px                | `text-9xl`    | Montserrat  |
+
+RULE: text-xxs through text-xl -> use `font-sans` (Inter).
+text-2xl and above -> use `font-heading` (Montserrat).
+
+### Font weight classes
+| Weight name | Value | Tailwind class    |
+|----|----|----|
+| thin        | 100   | `font-thin`       |
+| extralight  | 200   | `font-extralight` |
+| light       | 300   | `font-light`      |
+| normal      | 400   | `font-normal`     |
+| medium      | 500   | `font-medium`     |
+| semibold    | 600   | `font-semibold`   |
+| bold        | 700   | `font-bold`       |
+| extrabold   | 800   | `font-extrabold`  |
+| black       | 900   | `font-black`      |
+
+### Text decoration
+| Figma value   | Tailwind class  |
+|---|-----|
+| NONE          | (no class)      |
+| UNDERLINE     | `underline`     |
+| STRIKETHROUGH | `line-through`  |
+| italic style  | `italic`        |
+
+### Custom heading presets (responsive)
+| Preset     | Desktop size    | Mobile size     | Weight | Font       |
+|---|-----|-----|-----|---|
+| heading-xl | text-5xl (48px) | text-3xl (30px) | bold   | Montserrat |
+| heading-lg | text-4xl (36px) | text-3xl (30px) | bold   | Montserrat |
+| heading-md | text-3xl (30px) | text-3xl (30px) | bold   | Montserrat |
+| heading-sm | text-2xl (24px) | text-2xl (24px) | bold   | Montserrat |
+
+Usage pattern:
+```jsx
+// heading-xl
+<h1 className="font-heading text-3xl md:text-5xl font-bold leading-tight">...</h1>
+
+// heading-sm
+<h4 className="font-heading text-2xl font-bold leading-8">...</h4>
+```
+
+---
+
+## 4. SPACING SCALE
+Tailwind spacing: 1 unit = 4px. Only use values on this scale.
+
+| Token | px    | Tailwind prefix example |
+|----|----|----|
+| 0     | 0     | `p-0`                   |
+| 1     | 4px   | `p-1`                   |
+| 2     | 8px   | `p-2`                   |
+| 3     | 12px  | `p-3`                   |
+| 4     | 16px  | `p-4`                   |
+| 5     | 20px  | `p-5`                   |
+| 6     | 24px  | `p-6`                   |
+| 7     | 28px  | `p-7`                   |
+| 8     | 32px  | `p-8`                   |
+| 9     | 36px  | `p-9`                   |
+| 10    | 40px  | `p-10`                  |
+| 11    | 44px  | `p-11`                  |
+| 12    | 48px  | `p-12`                  |
+| 14    | 56px  | `p-14`                  |
+| 16    | 64px  | `p-16`                  |
+| 20    | 80px  | `p-20`                  |
+| 24    | 96px  | `p-24`                  |
+| 28    | 112px | `p-28`                  |
+| 32    | 128px | `p-32`                  |
+| 36    | 144px | `p-36`                  |
+| 40    | 160px | `p-40`                  |
+| 48    | 192px | `p-48`                  |
+| 64    | 256px | `p-64`                  |
+
+Custom layout tokens:
+| Token               | Desktop  | Mobile   | Classes            |
+|---|----|----|-----|
+| container-padding-x | 24px (6) | 24px (6) | `px-6`             |
+| section-padding-y   | 96px(24) | 64px(16) | `py-16 md:py-24`   |
+| section-title-gap-xl| 24px (6) | 16px (4) | `gap-4 md:gap-6`   |
+| section-title-gap-lg| 20px (5) | 16px (4) | `gap-4 md:gap-5`   |
+| section-title-gap-md| 20px (5) | 20px (5) | `gap-5`            |
+| section-title-gap-sm| 16px (4) | 16px (4) | `gap-4`            |
+
+---
+
+## 5. BORDER RADIUS
+| Token        | Value  | Tailwind class     |
+|-----|-----|-----|
+| rounded-none | 0      | `rounded-none`     |
+| rounded-xs   | 2px    | `rounded-xs`       |
+| rounded-sm   | 4px    | `rounded-sm`       |
+| rounded-md   | 8px    | `rounded-md`       |
+| rounded-lg   | 12px   | `rounded-lg`       |
+| rounded-xl   | 16px   | `rounded-xl`       |
+| rounded-2xl  | 20px   | `rounded-2xl`      |
+| rounded-3xl  | 24px   | `rounded-3xl`      |
+| rounded-4xl  | 32px   | `rounded-[32px]`   |
+| rounded-full | 9999px | `rounded-full`     |
+
+---
+
+## 6. BORDER WIDTH
+| Token    | Value | Tailwind class |
+|----|----|----|
+| border-0 | 0     | `border-0`     |
+| border   | 1px   | `border`       |
+| border-2 | 2px   | `border-2`     |
+| border-3 | 3px   | `border-[3px]` |
+| border-4 | 4px   | `border-4`     |
+| border-8 | 8px   | `border-8`     |
+
+---
+
+## 7. SHADOWS
+| Token      | Tailwind class | Notes                                      |
+|---|----|-----|
+| shadow-2xs | `shadow-[0_1px_0_0_rgba(163,163,163,0.05)]` | Ultra-subtle lift  |
+| shadow-xs  | `shadow-sm`    | 0 1 2 0 rgba(163,163,163,0.05)             |
+| shadow-sm  | `shadow-sm`    | Dual-layer 0 1 3/2 0/-1 rgba(163,163,163,0.1)|
+| shadow-md  | `shadow-md`    | 0 4 6 -1 + 0 2 4 -2 rgba(163,163,163,0.1) |
+| shadow-lg  | `shadow-lg`    | 0 10 15 -3 + 0 4 6 -4 rgba(163,163,163,0.1)|
+| shadow-xl  | `shadow-xl`    | 0 20 25 -5 + 0 8 10 -6 rgba(163,163,163,0.1)|
+| shadow-2xl | `shadow-2xl`   | 0 25 50 -12 rgba(163,163,163,0.25)         |
+
+---
+
+## 8. OPACITY
+| Token       | Value | Tailwind class |
+|----|----|----|
+| opacity-0   | 0%    | `opacity-0`    |
+| opacity-5   | 5%    | `opacity-5`    |
+| opacity-10  | 10%   | `opacity-10`   |
+| opacity-25  | 25%   | `opacity-25`   |
+| opacity-50  | 50%   | `opacity-50`   |
+| opacity-75  | 75%   | `opacity-75`   |
+| opacity-100 | 100%  | `opacity-100`  |
+
+---
+
+## 9. BREAKPOINTS
+| Token | px     | Tailwind prefix |
+|----|-----|-----|
+| sm    | 640px  | `sm:`           |
+| md    | 768px  | `md:`           |
+| lg    | 1024px | `lg:`           |
+| xl    | 1280px | `xl:`           |
+| 2xl   | 1536px | `2xl:`          |
+
+---
+
+## 10. CONTAINER SIZES
+| Token | Width  | Tailwind class  |
+|----|-----|-----|
+| 3xs   | 256px  | `max-w-[256px]` |
+| 2xs   | 288px  | `max-w-[288px]` |
+| xs    | 320px  | `max-w-xs`      |
+| sm    | 384px  | `max-w-sm`      |
+| md    | 448px  | `max-w-md`      |
+| lg    | 512px  | `max-w-lg`      |
+| xl    | 576px  | `max-w-xl`      |
+| 2xl   | 672px  | `max-w-2xl`     |
+| 3xl   | 768px  | `max-w-3xl`     |
+| 4xl   | 896px  | `max-w-4xl`     |
+| 5xl   | 1024px | `max-w-5xl`     |
+| 6xl   | 1152px | `max-w-6xl`     |
+| 7xl   | 1280px | `max-w-7xl`     |
+
+---
+
+## 11. SHADCN/UI COMPONENT RULES
+
+When a Figma frame contains a recognizable shadcn component, always import it from
+`@/components/ui` rather than building from scratch.
+
+### Component -> token mapping
+| shadcn component | Key tokens                                                         |
+|---|-----|
+| `<Button>`       | `primary` bg + `primary-foreground`; `rounded-md`; `text-sm font-medium` |
+| `<Card>`         | `card` bg + `card-foreground`; `border-border`; `shadow-sm`; `rounded-xl` |
+| `<Input>`        | `input` border; `background` bg; `text-sm`; `rounded-md`; `h-10`  |
+| `<Badge>`        | Status extraweak bg + bold text; `rounded-full`; `text-xs font-semibold` |
+| `<Alert>`        | Status extraweak bg + bold foreground + status icon                |
+| `<Sidebar>`      | All `sidebar-*` tokens                                             |
+| `<Popover>`      | `popover` bg + `popover-foreground`; `shadow-md`; `rounded-lg`     |
+
+### Variant -> color mapping
+| Variant      | Background          | Text                        |
+|-----|---|-----|
+| default      | `primary`           | `primary-foreground`        |
+| secondary    | `secondary`         | `secondary-foreground`      |
+| outline      | transparent         | `foreground` + `border-border`|
+| ghost        | transparent/`accent`| `foreground`                |
+| destructive  | `destructive`       | `destructive-foreground`    |
+| success      | `success-extraweak` | `success-bold`              |
+| warning      | `warning-extraweak` | `warning-bold`              |
+| info         | `info-extraweak`    | `info-bold`                 |
+
+---
+
+## 12. LUCIDE ICONS RULES
+
+- Always import from `lucide-react`: `import { IconName } from 'lucide-react'`
+- Size must match surrounding text:
+
+| Context              | Class     | px  |
+|----|-----|-----|
+| Inline with text-sm  | `size-4`  | 16  |
+| Inline with text-base| `size-4`  | 16  |
+| Inline with text-lg  | `size-5`  | 20  |
+| Standalone / button  | `size-4` to `size-5` |  |
+| Feature / hero icon  | `size-6` to `size-8` |  |
+
+- Icon color must use a semantic token class: `text-primary`, `text-muted-foreground`,
+  `text-destructive`, `text-success`, etc. Never a raw color.
+- Never use emoji as icons.
+
+---
+
+## 13. DARK MODE
+
+This DS uses class-based dark mode (`darkMode: 'class'` in tailwind.config).
+Always write both light and dark variants using semantic tokens so the CSS variables
+handle the switch automatically:
+
+```jsx
+// Correct — semantic tokens adapt automatically
+<div className="bg-background text-foreground border-border" />
+
+// Also correct for brand one-offs
+<div className="bg-orange-iag-100 dark:bg-orange-iag-900" />
+
+// Never — hardcoded values break dark mode
+<div style={{ backgroundColor: '#ffede3' }} />
+```
+
+---
+
+## 14. FRAME READING CHECKLIST
+When given a Figma design frame, work through this list in order:
+
+- [ ] Layout: flex/grid, gap, padding -> spacing tokens
+- [ ] Container: max-width -> container tokens
+- [ ] Colors: every fill -> semantic token; brand fills -> orange-iag/emerald-iag classes
+- [ ] Typography: read Figma style name (e.g. `text-sm/leading-normal/semibold`)
+       -> apply `text-sm font-semibold leading-5 font-sans`
+- [ ] Borders: width + color -> border-width and border-color tokens
+- [ ] Radius: corner radius -> `rounded-*` token
+- [ ] Shadows: map to shadow token
+- [ ] Icons: identify and replace with Lucide equivalent at correct size
+- [ ] Components: does this match a shadcn component? Use it, don't rebuild
+- [ ] Responsive: apply mobile vs desktop token variants where defined
+- [ ] Dark mode: confirm all colors are covered via semantic tokens
+
+---
+
+## 15. FORBIDDEN PATTERNS
+
+```jsx
+// Hardcoded colors
+style={{ color: '#fe5b04' }}
+className="text-[#fe5b04]"
+
+// Arbitrary spacing not on the scale
+className="p-[13px]"
+
+// Raw font-size outside the scale
+style={{ fontSize: '15px' }}
+
+// Emoji as icon
+<span>🔥</span>
+
+// Rebuilding shadcn components
+<button className="bg-orange-500 rounded px-4 py-2">
+
+// Wrong font family for size
+<h2 className="font-sans text-3xl">  // text-2xl+ must use font-heading
+```
